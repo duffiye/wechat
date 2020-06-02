@@ -1,0 +1,7 @@
+package common
+
+// Error 微信返回的通用错误json
+type Error struct {
+	ErrCode int64  `json:"errcode"`
+	ErrMsg  string `json:"errmsg"`
+}
