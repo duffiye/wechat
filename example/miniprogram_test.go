@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/duffiye/wechat"
+	"github.com/duffiye/wechat/miniprogram/auth"
 	"github.com/duffiye/wechat/miniprogram/config"
 
 	"github.com/duffiye/wechat/cache"
@@ -15,8 +16,8 @@ func TestAuthCode2Session(t *testing.T) {
 	wc := wechat.NewWechat()
 	memory := cache.NewMemory()
 	cfg := &config.Config{
-		AppID:     "wx9b3d1f8bbb110bd5",
-		AppSecret: "f2b12c8c958f35fec03f834cec0e3d81",
+		AppID:     "",
+		AppSecret: "",
 		Cache:     memory,
 	}
 	result, err := wc.GetMiniProgram(cfg).GetAuth().Jscode2session("071H0Zsf2ErcTE0aDauf2gZIsf2H0Zs0")
@@ -24,4 +25,22 @@ func TestAuthCode2Session(t *testing.T) {
 		fmt.Printf("miniprogram code2session error %v\n", err)
 	}
 	fmt.Printf("Jscode2session Result %v\n", result)
+}
+
+func TestGetPaidUnionID(t *testing.T) {
+	wc := wechat.NewWechat()
+	memory := cache.NewMemory()
+	cfg := &config.Config{
+		AppID:     "",
+		AppSecret: "",
+		Cache:     memory,
+	}
+	request := auth.GetPaidUnionIDRequest{}
+	request.OpenID = "071H0Zsf2ErcTE0aDauf2gZIsf2H0Zs0"
+	request.TransactionID = "sss"
+	result, err := wc.GetMiniProgram(cfg).GetAuth().GetPaidUnionID(request)
+	if err != nil {
+		fmt.Printf("miniprogram GetPaidUnionID error %v\n", err)
+	}
+	fmt.Printf("GetPaidUnionID Result %v\n", result)
 }

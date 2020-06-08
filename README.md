@@ -1,5 +1,6 @@
 # wechat
 微信SDK
+感谢https://github.com/silenceper/wechat， 目录结构和部分代码参考此项目
 
 - [ ] **Cmd Markdown 开发**
     - [ ] 改进 Cmd 渲染算法，使用局部渲染技术提高渲染效率

@@ -1,6 +1,7 @@
 package miniprogram
 
 import (
+	"github.com/duffiye/wechat/credential"
 	"github.com/duffiye/wechat/miniprogram/auth"
 	"github.com/duffiye/wechat/miniprogram/config"
 	"github.com/duffiye/wechat/miniprogram/context"
@@ -13,8 +14,11 @@ type MiniProgram struct {
 
 // NewMiniProgram new miniprogram
 func NewMiniProgram(cfg *config.Config) *MiniProgram {
+	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyMiniProgramPrefix, cfg.Cache)
+
 	ctx := &context.Context{
-		Config: cfg,
+		Config:            cfg,
+		AccessTokenHandle: defaultAkHandle,
 	}
 	return &MiniProgram{ctx}
 }

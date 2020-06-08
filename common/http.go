@@ -22,13 +22,12 @@ func Get(url string) (body []byte, err error) {
 }
 
 // Post http post
-func Post(url, contentType, data string) ([]byte, error) {
-	body := bytes.NewBuffer([]byte(data))
+func Post(url, contentType string, data []byte) ([]byte, error) {
+	body := bytes.NewBuffer(data)
 	response, err := http.Post(url, contentType, body)
 	if err != nil {
 		return nil, err
 	}
-
 	defer response.Body.Close()
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("http get error : uri=%v , statusCode=%v", url, response.StatusCode)
