@@ -4,6 +4,8 @@ import (
 	"github.com/duffiye/wechat/cache"
 	"github.com/duffiye/wechat/miniprogram"
 	miniConfig "github.com/duffiye/wechat/miniprogram/config"
+	"github.com/duffiye/wechat/wechatpay"
+	wechatPayConfig "github.com/duffiye/wechat/wechatpay/config"
 )
 
 // Wechat wc
@@ -27,4 +29,8 @@ func (wc *Wechat) GetMiniProgram(cfg *miniConfig.Config) *miniprogram.MiniProgra
 		cfg.Cache = wc.cache
 	}
 	return miniprogram.NewMiniProgram(cfg)
+}
+
+func (wc *Wechat) GetWechatPay(cfg *wechatPayConfig.Config) *wechatpay.WechatPay {
+	return wechatpay.NewWechatPay(cfg)
 }

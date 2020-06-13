@@ -34,3 +34,17 @@ func Post(url, contentType string, data []byte) ([]byte, error) {
 	}
 	return ioutil.ReadAll(response.Body)
 }
+
+// PostWithJSON http post
+func PostWithJSON(url string, data []byte) ([]byte, error) {
+	body := bytes.NewBuffer(data)
+	response, err := http.Post(url, "application/json", body)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+	if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("http get error : uri=%v , statusCode=%v", url, response.StatusCode)
+	}
+	return ioutil.ReadAll(response.Body)
+}
