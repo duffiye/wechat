@@ -5,6 +5,7 @@ import (
 	"github.com/duffiye/wechat/miniprogram/auth"
 	"github.com/duffiye/wechat/miniprogram/config"
 	"github.com/duffiye/wechat/miniprogram/context"
+	"github.com/duffiye/wechat/miniprogram/message/subscribe"
 )
 
 // MiniProgram 小程序相关
@@ -31,4 +32,8 @@ func (miniProgram *MiniProgram) GetContext() *context.Context {
 //GetAuth 登录/用户信息相关接口
 func (miniProgram *MiniProgram) GetAuth() *auth.Auth {
 	return auth.NewAuth(miniProgram.ctx)
+}
+
+func (miniProgram *MiniProgram) GetSubscribe() *subscribe.Subscribe {
+	return subscribe.NewSubscribe(miniProgram.ctx)
 }

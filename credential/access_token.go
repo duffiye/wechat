@@ -8,7 +8,6 @@ import (
 
 	"github.com/duffiye/wechat/cache"
 	"github.com/duffiye/wechat/common"
-	"github.com/silenceper/wechat/util"
 )
 
 //AccessTokenHandle AccessToken 接口
@@ -90,7 +89,7 @@ func (ak *DefaultAccessToken) GetAccessToken() (accessToken string, err error) {
 func GetTokenFromServer(appID, appSecret string) (resAccessToken ResAccessToken, err error) {
 	url := fmt.Sprintf("%s?grant_type=client_credential&appid=%s&secret=%s", accessTokenURL, appID, appSecret)
 	var body []byte
-	body, err = util.HTTPGet(url)
+	body, err = common.Get(url)
 	if err != nil {
 		return
 	}

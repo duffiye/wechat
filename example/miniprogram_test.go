@@ -7,6 +7,7 @@ import (
 	"github.com/duffiye/wechat"
 	"github.com/duffiye/wechat/miniprogram/auth"
 	"github.com/duffiye/wechat/miniprogram/config"
+	"github.com/duffiye/wechat/miniprogram/message/subscribe"
 
 	"github.com/duffiye/wechat/cache"
 )
@@ -43,4 +44,43 @@ func TestGetPaidUnionID(t *testing.T) {
 		fmt.Printf("miniprogram GetPaidUnionID error %v\n", err)
 	}
 	fmt.Printf("GetPaidUnionID Result %v\n", result)
+}
+
+func TestSubscribeMessage(t *testing.T) {
+	wc := wechat.NewWechat()
+	memory := cache.NewMemory()
+	cfg := &config.Config{
+		AppID:     "wx582c2a3ea6e645c8",
+		AppSecret: "1a43bca4db711cfd5481ca41b0f94622",
+		Cache:     memory,
+	}
+	request := subscribe.SubscribeRequest{}
+	request.MiniprogramState = "developer"
+	request.Page = "index"
+	request.ToUser = "oyWPK5GDRA-KHZkUStK8OvoKqtcQ"
+	request.Lang = "zh_CN"
+	request.TemplateID = "OobKR3uFlqguH5b6xWkUJVu344FZwvw3tn1fv3xjs-s"
+	request.Data = map[string]struct {
+		Value string `json:"value"`
+	}{
+		"date3": struct {
+			Value string "json:\"value\""
+		}{Value: "2019年10月1日"},
+		"thing4": struct {
+			Value string "json:\"value\""
+		}{
+			Value: "sss",
+		},
+		"phrase5": struct {
+			Value string "json:\"value\""
+		}{
+			Value: "五个汉字",
+		},
+	}
+	ret, err := wc.GetMiniProgram(cfg).GetSubscribe().Send(request)
+	if err != nil {
+		t.Fatal(err)
+	} else {
+		fmt.Println(ret)
+	}
 }

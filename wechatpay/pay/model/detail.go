@@ -14,4 +14,8 @@ type Detail struct {
 	// string（32）	否	商家小票ID
 	// 示例值：微信123
 	InvoiceID string `json:"invoice_id"`
+
+	// GoodsDetail 单品列表
+	// array	否	单品列表信息条目个数限制：【1，undefined】
+	GoodsDetail GoodsDetail `json:"goods_detail"`
 }

@@ -7,6 +7,8 @@ import (
 	"github.com/duffiye/wechat"
 	"github.com/duffiye/wechat/wechatpay/config"
 	"github.com/duffiye/wechat/wechatpay/marketing"
+	"github.com/duffiye/wechat/wechatpay/pay"
+	"github.com/duffiye/wechat/wechatpay/pay/model"
 )
 
 func TestFavorCallbacks(t *testing.T) {
@@ -24,4 +26,24 @@ func TestFavorCallbacks(t *testing.T) {
 		fmt.Println(err)
 	}
 	fmt.Println(result)
+}
+
+func TestJSAPI(t *testing.T) {
+	wc := wechat.NewWechat()
+	cfg := &config.Config{}
+	cfg.MchID = "1308675601"
+	cfg.SerialNo = "20AEACC22AD73745F1CFD6FB04E103058115EAC9"
+	cfg.SpAppID = ""
+
+	wechatpay := wc.GetWechatPay(cfg)
+	request := pay.JSAPIRequest{}
+	request.Amount = model.Amount{}
+
+	pay := wechatpay.GetPay()
+	result, err := pay.JSAPI(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(result)
+
 }

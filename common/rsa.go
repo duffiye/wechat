@@ -1,6 +1,7 @@
 package common
 
 import (
+	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha1"
@@ -57,14 +58,35 @@ func ParsePKIXPublicKey(pemPath string) (publicKey *rsa.PublicKey, err error) {
 func ParsePKCS1PrivateKey(pemPath string) (privateKey *rsa.PrivateKey, err error) {
 	privateKeyBytes, err := ioutil.ReadFile(pemPath)
 	if err != nil {
-		fmt.Println(err)
-		return privateKey, err
+		return privateKey, fmt.Errorf("读取证书[%v]错误", err)
 	}
 	block, _ := pem.Decode(privateKeyBytes)
-	privateInterface, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	privateInterface, err := x509.ParsePKCS8PrivateKey(block.Bytes)
 	if err != nil {
-		fmt.Println(err)
-		return privateKey, err
+		return privateKey, fmt.Errorf("解析私钥信息错误%v", err)
 	}
-	return privateInterface, nil
+	return privateInterface.(*rsa.PrivateKey), nil
+}
+
+// SHA256withRSA SHA256withRSA
+func SHA256withRSA(data string, pem string) (string, error) {
+	h := crypto.Hash.New(crypto.SHA256)
+	h.Write([]byte(data))
+	hashed := h.Sum(nil)
+
+	privateKey, err := ParsePKCS1PrivateKey(pem)
+	if err != nil {
+		return "", fmt.Errorf("解析私钥正常错误[%v]，证书路径[%s]", err, pem)
+	}
+
+	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed)
+	if err != nil {
+		return "", fmt.Errorf("生成签名信息错误[%v]", err)
+	}
+
+	fmt.Printf("Signature: %x\n", signature)
+	signRet := fmt.Sprintf("%x", signature)
+	fmt.Printf("sigRet: %s\n", signRet)
+
+	return signRet, nil
 }
