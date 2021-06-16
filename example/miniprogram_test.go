@@ -55,7 +55,7 @@ func TestSubscribeMessage(t *testing.T) {
 		Cache:     memory,
 	}
 	request := subscribe.SubscribeRequest{}
-	request.MiniprogramState = "developer"
+	request.MiniprogramState = ""
 	request.Page = "index"
 	request.ToUser = "oyWPK5GDRA-KHZkUStK8OvoKqtcQ"
 	request.Lang = "zh_CN"
@@ -74,7 +74,7 @@ func TestSubscribeMessage(t *testing.T) {
 		"phrase5": struct {
 			Value string "json:\"value\""
 		}{
-			Value: "五个汉字",
+			Value: "待审核",
 		},
 	}
 	ret, err := wc.GetMiniProgram(cfg).GetSubscribe().Send(request)
